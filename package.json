@@ -18,6 +18,8 @@
   "homepage": "https://github.com/ireneo-cobarjr/jay-cob-wp-theme#readme",
   "devDependencies": {
     "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-babel": "^8.0.0",
@@ -28,5 +30,8 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2"
+  },
+  "dependencies": {
+    "jump.js": "^1.0.2"
   }
 }
