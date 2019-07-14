@@ -10,21 +10,16 @@ To build from source, You need to have the following installed on your Computer.
 - Git
 * * *
 If you have all of this already installed:
-1. Open a terminal and navigate to the theme folder of the locally installed WordPress. 
-
+1. Open a terminal and navigate to the theme folder of the locally installed WordPress.  
  `cd localWordPress/wp-content/themes`
-2. Clone this repo by entering this commands on the terminal:
-
+2. Clone this repo by entering this commands on the terminal:  
 `git clone https://github.com/ireneo-cobarjr/jay-cob-wp-theme.git`
 `cd jay-cob-wp-theme`
-3. Install dependencies by entering this command on the terminal:
-
+3. Install dependencies by entering this command on the terminal:  
 `npm install`
-4. Open gulpfile.js located on the root directory of jay-cob-wp-theme folder and go to Section B. Change the variable `localsite` to match the local web address of your locally installed WordPress.
-
+4. Open gulpfile.js located on the root directory of jay-cob-wp-theme folder and go to Section B. Change the variable `localsite` to match the local web address of your locally installed WordPress.  
 `localsite = 'http://yourWordPress';`
-5. Run the task runner on the terminal:
-
+5. Run the task runner on the terminal:  
 `gulp`
 
 
