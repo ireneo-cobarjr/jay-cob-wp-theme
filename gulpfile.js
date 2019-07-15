@@ -21,7 +21,17 @@ const sass      = 'src/sass/jcob.scss',
 	  jsFile    = 'src/js/jcob.js',
 	  jsOut     = 'jcob.min.js', 
 	  jsDest    = 'assets/js/',
+	  jumpJS 	= 'node_modules/jump.js/dist/jump.js',
+	  watchCss  = 'src/sass/*.scss',
+	  watchJs   = 'src/js/*.js',
+	  watchPhp  = '**/**/**/*.php'
 	  localsite = 'http://jay.test';
+
+//Order by which JS files will be concatenated.
+let JS_ORDER = [
+	jumpJS,
+	jsDest + 'jcob.js'
+]; 
 ///////////////////////////////////////////////////////////////////////////
 //Section: C
 //defining CSS compilation function
@@ -40,10 +50,15 @@ function buildCSS() {
 //defining js compilation function
 function buildJS() {
 	return src(jsFile)
-			.pipe(concat(jsOut))
-			.pipe(babel({ presets: ['@babel/env'] }))
-			.pipe(uglify())
 			.pipe(lineEnding())
+			.pipe(babel({ presets: ['@babel/env'] }))
+			.pipe(dest(jsDest));
+}
+
+function concatJS() {
+	return src(JS_ORDER)
+			.pipe(concat(jsOut))
+			.pipe(uglify())
 			.pipe(dest(jsDest));
 }
 
@@ -56,13 +71,14 @@ function watchFiles() {
 	});	
 
 	//watch for scss file changes
-	watch(sass, buildCSS);
+	watch(watchCss, buildCSS);
 	//watch for js file changes
-	watch(jsFile, buildJS);
+	watch(watchJs, buildJS);
 	//reload browser once changes are made
 	watch([
 		cssDest + cssOut,
-		jsDest  + jsOut 
+		jsDest  + jsOut,
+		watchPhp 
 		]).on('change', sync.reload);
 }
 
@@ -70,9 +86,10 @@ function watchFiles() {
 //Section: D
 exports.watchFiles   = watchFiles;
 exports.buildCSS     = buildCSS;
+exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
 
-var dev = series( parallel([buildJS, buildCSS]), watchFiles);
+var dev = series( parallel([buildJS, buildCSS]), concatJS, watchFiles);
 task('default', dev);
 ///////////////////////////////////////////////////////////////////////////
 
