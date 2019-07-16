@@ -19,11 +19,15 @@ If you have all of this already installed:
 `npm install`
 4. Open gulpfile.js located on the root directory of jay-cob-wp-theme folder and go to Section B. Change the variable `localsite` to match the local web address of your locally installed WordPress.  
 `localsite = 'http://yourWordPress';`
-5. Run the task runner on the terminal:  
-`gulp`
+5. Run the task runner on the terminal for development:  
+`npm run dev`  
+6. To build the theme, run the code below. The theme file is on the dist folder ready to be installed:  
+`npm run build`
 
 
-gulp is using browser-sync. So any changes on files at `src/` will reload the browser.
+
+
+gulp is using browser-sync. So any changes on files at `src/` or any `*.php` files will reload the browser.
 * * *
 
 ### Libraries Used
