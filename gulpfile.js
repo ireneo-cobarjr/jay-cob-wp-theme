@@ -12,6 +12,8 @@ const gmaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const babel = require('gulp-babel');
 const sync =  require('browser-sync');
+const zip = require('gulp-zip');
+const del = require('del');
 ///////////////////////////////////////////////////////////////////////////
 //Section: B
 //set variables for files and file paths
@@ -26,6 +28,43 @@ const sass      = 'src/sass/jcob.scss',
 	  watchJs   = 'src/js/*.js',
 	  watchPhp  = '**/**/**/*.php'
 	  localsite = 'http://jay.test';
+
+//build files
+const build = {
+	css: {
+			files: [
+				'assets/css/jcob.min.css',			],
+			dest: 'dist/jay-cob-wp-theme/assets/css/'
+		},
+	js: {
+			files: [
+				'assets/js/jcob.min.js'
+			],
+			dest: 'dist/jay-cob-wp-theme/assets/js/'
+		},
+	inc: {
+			files: [
+				'inc/*'
+			],
+			dest: 'dist/jay-cob-wp-theme/inc/'
+		},
+	parts: {
+			files: [
+				'template-parts/**/*.php',
+			],
+			dest: 'dist/jay-cob-wp-theme/template-parts/'
+		},
+	base: {
+			files: [
+				'*.php',
+				'style.css',
+				'screenshot.png'
+		    ],
+	    	dest: 'dist/jay-cob-wp-theme/'
+	    },
+	    out: 'jay-cob-wp-theme.zip',
+	    dest: 'dist/'
+};
 
 //Order by which JS files will be concatenated.
 let JS_ORDER = [
@@ -62,6 +101,44 @@ function concatJS() {
 			.pipe(dest(jsDest));
 }
 
+//build functions
+	// Step 1: clean dist folder
+function initialClean() {
+		return del(['dist/*']);
+}
+	// Step 2: copy files
+function copyCSSFiles() {
+	return src(build.css.files)
+			.pipe(dest(build.css.dest));
+}
+function copyJSFiles() {
+	return src(build.js.files)
+			.pipe(dest(build.js.dest));
+}
+function copyIncFiles() {
+	return src(build.inc.files)
+			.pipe(dest(build.inc.dest));
+}
+function copyPartsFiles() {
+	return src(build.parts.files)
+			.pipe(dest(build.parts.dest));
+}
+function copyBaseFiles() {
+	return src(build.base.files)
+			.pipe(dest(build.base.dest));
+}
+	// step 3: zip it!
+function zipBuild() {
+	return src(build.base.dest + '**/**/*')
+			.pipe(zip(build.out))
+			.pipe(dest(build.dest));
+}
+	// step 4: clean dist
+function finalClean() {
+		return del(['dist/*', '!dist/*.zip']);
+}
+//end build functions
+
 //defining file watch function
 function watchFiles() {
 	sync.init({
@@ -90,6 +167,8 @@ exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
 
 var dev = series( parallel([buildJS, buildCSS]), concatJS, watchFiles);
+var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
+task('build', buildFiles);
 ///////////////////////////////////////////////////////////////////////////
 
