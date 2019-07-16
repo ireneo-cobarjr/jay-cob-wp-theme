@@ -1,12 +1,14 @@
-<section class="jcWP-screensize" id="target-1">
+<section class="has-background-primary">
 	<div class="container">
-		<h1>Hello Dumb Asses!</h1>
-		<button class="button is-warning" id="goto-2">Click me</button>
-	</div>
-</section>
-<section class="jcWP-screensize" id="target-2">
-	<div class="container">
-		<h1>Hello Dumb Asses part 2!</h1>
-		<button class="button is-warning" id="goto-1">Click me again</button>
+		<div class="columns jcWP-screensize is-vcentered">
+			<div class="column">
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eget augue elementum, ultrices tellus id, congue enim. Nulla vehicula mauris quam, ac sodales tortor condimentum a. Curabitur ac iaculis ligula. Morbi consectetur dolor purus, id congue eros tincidunt a.
+				</p>
+			</div>
+			<div class="column">
+				<?php get_template_part('template-parts/components/jcWP-cube'); ?>
+			</div>
+		</div>
 	</div>
 </section>
