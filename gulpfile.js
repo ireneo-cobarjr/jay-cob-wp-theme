@@ -74,6 +74,9 @@ let JS_ORDER = [
 ///////////////////////////////////////////////////////////////////////////
 //Section: C
 //defining CSS compilation function
+function cleanCssOut() {
+	return del([cssDest + cssOut]);
+}
 function buildCSS() {
 	return src(sass)
 			.pipe(gmaps.init({ loadMaps: true }))
@@ -87,6 +90,10 @@ function buildCSS() {
 }
 
 //defining js compilation function
+function cleanJS() {
+	return del([jsDest + jsOut]);
+}
+
 function buildJS() {
 	return src(jsFile)
 			.pipe(lineEnding())
@@ -99,6 +106,10 @@ function concatJS() {
 			.pipe(concat(jsOut))
 			.pipe(uglify())
 			.pipe(dest(jsDest));
+}
+
+function removeJsResidue() {
+	return del([jsDest + 'jcob.js']);
 }
 
 //build functions
@@ -165,8 +176,9 @@ exports.watchFiles   = watchFiles;
 exports.buildCSS     = buildCSS;
 exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
+exports.cleanJS      = cleanJS;
 
-var dev = series( parallel([buildJS, buildCSS]), concatJS, watchFiles);
+var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildJS, buildCSS]), concatJS, removeJsResidue ,watchFiles);
 var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
 task('build', buildFiles);
