@@ -21,9 +21,11 @@ const sass      = 'src/sass/jcob.scss',
 	  cssOut    = 'jcob.min.css',
 	  cssDest   = 'assets/css/',
 	  jsFile    = 'src/js/jcob.js',
+	  jsVars    = 'src/js/vars.js',
 	  jsOut     = 'jcob.min.js', 
 	  jsDest    = 'assets/js/',
 	  jumpJS 	= 'node_modules/jump.js/dist/jump.js',
+	  sceneJS 	= 'node_modules/scenejs/dist/scene.js',
 	  watchCss  = 'src/sass/*.scss',
 	  watchJs   = 'src/js/*.js',
 	  watchPhp  = '**/**/**/*.php'
@@ -68,6 +70,7 @@ const build = {
 
 //Order by which JS files will be concatenated.
 let JS_ORDER = [
+	sceneJS,
 	jumpJS,
 	jsDest + 'jcob.js'
 ]; 
@@ -95,7 +98,7 @@ function cleanJS() {
 }
 
 function buildJS() {
-	return src(jsFile)
+	return src([jsFile])
 			.pipe(lineEnding())
 			.pipe(babel({ presets: ['@babel/env'] }))
 			.pipe(dest(jsDest));
@@ -161,11 +164,11 @@ function watchFiles() {
 	//watch for scss file changes
 	watch(watchCss, buildCSS);
 	//watch for js file changes
-	watch(watchJs, buildJS);
+	watch(watchJs, series(cleanJS, buildJS, concatJS, removeJsResidue));
 	//reload browser once changes are made
 	watch([
 		cssDest + cssOut,
-		jsDest  + jsOut,
+		jsDest + jsOut,
 		watchPhp 
 		]).on('change', sync.reload);
 }
