@@ -1,0 +1,79 @@
+#wrapD3Cube {
+    width: 350px;
+    height: 313px;
+    margin: 20px auto;
+    background-color: #EEE;
+}
+#jcWP-brand-cube {
+    width: 180px;
+    height: 180px;
+    top: 50px;
+    transform-style: preserve-3d;
+    transform: rotateX(22deg) rotateY(-38deg) rotateZ(0deg);
+    margin: auto;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s linear;
+}
+#jcWP-brand-cube > div {
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+    width: 180px;
+    height: 180px;
+    float: left;
+    overflow: hidden;
+}
+
+#jcWP-cube-top, #jcWP-cube-side1, #jcWP-cube-side2, #jcWP-cube-side3, #jcWP-cube-side4, #jcWP-cube-bottom {
+    font-family: Arial;
+    font-size: 3rem;
+    text-align: center;
+    box-sizing: border-box;
+    border: 3px solid #37474F;
+    background-color: #263238;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    font-weight: 800;
+}
+#jcWP-cube-top {
+    transform: rotatex(90deg) translateX(0px) translateY(0px) translateZ(90px);
+}
+#jcWP-cube-side1 {
+    transform: rotateY(-90deg) translateX(0px) translateY(0px) translateZ(90px);
+}
+#jcWP-cube-side2 {
+    transform: translateX(0px) translateY(0px) translateZ(90px);
+}
+#jcWP-cube-side3 {
+    transform: rotateY(90deg) translateX(0px) translateY(0px) translateZ(90px);
+}
+#jcWP-cube-side4 {
+    transform: rotateY(180deg) translateX(0px) translateY(0px) translateZ(90px);
+}
+#jcWP-cube-bottom {
+    transform: rotateX(-90deg) translateX(0px) translateY(0px) translateZ(90px);
+    background-color: #1f292e !important;
+}
+
+#jcWP-brand-cube {
+    animation: jcWPBrandCubeRotation 12s infinite;
+}
+.jcWP-text-glow {
+    color: #fff;
+    text-shadow: 0 0 10px #00beff,
+                 0 0 20px #00beff,
+                 0 0 40px #00beff,
+                 0 0 80px #00beff,
+                 0 0 120px #00beff,
+                 0 0 200px #00beff,
+                 0 0 300px #00beff,
+                 0 0 400px #00beff;
+}
+@keyframes jcWPBrandCubeRotation {
+    0%   {  -webkit-transform: rotateX(22deg) rotateY(-38deg) rotateZ(0deg) translateY(0) translateZ(0);  }
+    50%   { -webkit-transform: rotateX(22deg) rotateY(-128deg) rotateZ(0deg) translateY(30px) translateZ(20px);  }
+    100%   {    -webkit-transform: rotateX(22deg) rotateY(-398deg) rotateZ(0deg) translateY(0) translateZ(0);  }
+}
+

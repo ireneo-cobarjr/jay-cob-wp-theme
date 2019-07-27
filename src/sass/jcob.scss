@@ -1,0 +1,188 @@
+@charset "utf-8";
+
+
+//Colors
+$purple: #FF0082;
+$cyan: #00BCD4;
+$brand-color-primary: $cyan;
+$brand-color-secondary: $purple;
+$brand-color-dark: #263238;
+$brand-font-color: black !default;
+
+//color overrides
+$primary: $brand-color-primary;
+$dark: $brand-color-dark;
+$success: $purple;
+
+$brand-header-font: 'Jaldi', sans-serif;
+$brand-all-font: 'Montserrat', sans-serif;
+
+//column
+$column-gap: 1.75em;
+
+$brand-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+//buttons
+$radius-small: none;
+$radius: none;
+$radius-large: none;
+.button {
+	border-width: .18em !important;
+	box-shadow: $brand-box-shadow !important;
+}
+
+// jay-cob.com custom css classes
+.jcWP-screensize {
+	height: 100vh;
+	width: 100vw;
+}
+.jcWP-100vh {
+	height: 100vh;
+}
+.jcWP-100vw {
+	width: 100vw;	
+}
+#homepage-slogan {
+	justify-content: space-between;
+	flex-direction: column;
+	max-height: 300px;
+	height: 35vh;
+}
+
+// fonts
+* {
+	color: $brand-font-color;
+	font-smoothing: antialiased !important;
+}
+$family-sans-serif: $brand-all-font;
+h1,h2,h3,h4 {
+	font-family: $brand-header-font;
+}
+
+h1 {
+	font-size: 3.5rem !important;
+}
+h2 {
+	font-size: 3rem !important;
+}
+h3 {
+	font-size: 2rem !important;
+}
+h4 {
+	font-size: 1.75rem !important;
+}
+
+#jcWP-banner {
+	margin-left: .25em;
+}
+
+//yellow-section
+//homepage
+.has-background-transparent {
+	background-color: transparent !important;
+}
+.yellow-section {
+	position: relative;
+	overflow: none;
+	&::before {
+		position: absolute;
+		content: '';
+		top: -8.1%;
+		left: 0;
+		width: 50%;
+		height: 105%;
+		background-color: #FFDA13;
+	}
+}
+
+
+body {
+	background-color: $primary;
+}
+.no-overflow {
+	// overflow: hidden;
+}
+.service-cards {
+	height: 30%;
+	width: 100%;
+	margin: .5em 0;
+}
+
+
+
+@import "jcob-cube.scss";
+@import "bulma-0.7.5/bulma.sass";
+
+#services-list {
+	height: 100%;
+	align-items: center;
+
+	& ul {
+		width: 100%;
+	}
+
+	& ul .service-selected {
+		color: white !important;
+		font-size: 1.3rem;
+		font-weight: bold !important;
+		background-color: $brand-color-dark !important;
+	}
+	
+	& ul li {
+		transition: all 0.2s linear;
+		padding: .25em .25em .25em 1.75em;
+	}
+
+	& ul .service-item {
+		margin-top: 1.5em;
+		cursor: pointer;
+		display: block;
+		font-weight: normal;
+		padding: .25em .25em .25em 1.75em;
+
+		&:hover {
+			color: $grey-lighter !important;
+			font-size: 1.3rem !important;
+			background-color: #34444c;
+		}
+	}
+}
+
+#service-description-area {
+	display: flex;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+
+	.service-description {
+		width: 85%;
+		height: 325px;
+		color: white;
+
+		h2 {
+			margin-bottom: 0.25em;
+		}
+
+		#service-avail {
+			margin-top: 3em;
+		}
+	}
+
+	#service-background {
+		position: absolute;
+		font-size: 9rem;
+		font-family: "Arial Black", Gadget, sans-serif;
+		font-weight: 800;
+		z-index: -1;
+		color: #1f292e;
+		top: 1em;
+		left: 0;
+		text-transform: uppercase;
+		width: 100%;
+		text-align: center;
+	}
+}
