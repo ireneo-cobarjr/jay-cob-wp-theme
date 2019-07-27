@@ -21,7 +21,8 @@ const sass      = 'src/sass/jcob.scss',
 	  cssOut    = 'jcob.min.css',
 	  cssDest   = 'assets/css/',
 	  jsFile    = 'src/js/jcob.js',
-	  jsVars    = 'src/js/vars.js',
+	  jsVars    = 'vars.js',
+	  jsSrc     = 'src/js/'
 	  jsOut     = 'jcob.min.js', 
 	  jsDest    = 'assets/js/',
 	  jumpJS 	= 'node_modules/jump.js/dist/jump.js',
@@ -72,6 +73,7 @@ const build = {
 let JS_ORDER = [
 	sceneJS,
 	jumpJS,
+	jsDest + jsVars,
 	jsDest + 'jcob.js'
 ]; 
 ///////////////////////////////////////////////////////////////////////////
@@ -98,7 +100,14 @@ function cleanJS() {
 }
 
 function buildJS() {
-	return src([jsFile])
+	return src(jsFile)
+			.pipe(lineEnding())
+			.pipe(babel({ presets: ['@babel/env'] }))
+			.pipe(dest(jsDest));
+}
+
+function buildVarsJS() {
+	return src(jsSrc + jsVars)
 			.pipe(lineEnding())
 			.pipe(babel({ presets: ['@babel/env'] }))
 			.pipe(dest(jsDest));
@@ -113,6 +122,9 @@ function concatJS() {
 
 function removeJsResidue() {
 	return del([jsDest + 'jcob.js']);
+}
+function removeJsvarsResidue() {
+	return del([jsDest + jsVars]);
 }
 
 //build functions
@@ -164,7 +176,7 @@ function watchFiles() {
 	//watch for scss file changes
 	watch(watchCss, buildCSS);
 	//watch for js file changes
-	watch(watchJs, series(cleanJS, buildJS, concatJS, removeJsResidue));
+	watch(watchJs, series(cleanJS, buildVarsJS, buildJS, concatJS, removeJsvarsResidue, removeJsResidue));
 	//reload browser once changes are made
 	watch([
 		cssDest + cssOut,
@@ -181,7 +193,7 @@ exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
 exports.cleanJS      = cleanJS;
 
-var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildJS, buildCSS]), concatJS, removeJsResidue ,watchFiles);
+var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildVarsJS, buildJS, buildCSS]), concatJS, removeJsResidue ,watchFiles);
 var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
 task('build', buildFiles);

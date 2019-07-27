@@ -28,10 +28,12 @@
 			<div class="column jcWP-100vh is-8">
 				<div id="service-description-area">
 					<div class="service-description">
+						<div id="service-background">Website</div>
 						<h2 class="has-text-light" id="service-title">WordPress Website</h2>
 						<p class="has-text-light has-text-weight-bold" id="service-description">
 							A full Website on WordPress. This already includes a Custom Personlized Theme. Name the pages you need and the sections that are important to you.
 						</p>
+						<button class="button has-background-success has-text-light is-medium" id="service-avail">Avail this Service</button>
 					</div>
 				</div>
 			</div>
