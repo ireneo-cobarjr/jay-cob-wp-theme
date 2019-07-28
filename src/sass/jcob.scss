@@ -127,6 +127,7 @@ body {
 		font-size: 1.3rem;
 		font-weight: bold !important;
 		background-color: $brand-color-dark !important;
+		margin-top: 1em;
 	}
 	
 	& ul li {
@@ -152,6 +153,7 @@ body {
 #service-description-area {
 	display: flex;
 	position: relative;
+	overflow: hidden;
 	align-items: center;
 	justify-content: center;
 	width: 100%;
@@ -184,5 +186,169 @@ body {
 		text-transform: uppercase;
 		width: 100%;
 		text-align: center;
+	}
+	#service-overlay {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: -105%;
+		left: 0;
+		background-color: $brand-color-dark;
+	}
+}
+
+/////////////////////////
+//sidebar
+#services-sidebar {
+	position: fixed;
+	top: -5vh;
+	left: -75vw;
+	padding-top: 8vh;
+	padding-left: 8vw;
+	height: 120vh;
+	width: 65vw;
+	background-color: white;
+	transform: rotate(5deg);
+	transition: all .5s ease-in;
+	z-index: 50;
+
+	&.show-sidebar {
+		left: -5vw;
+	}
+
+	#services-sidebar-body {
+		transform: rotate(-5deg);
+		height: 83%;
+		width: 90%;
+	}
+
+	#close-sidebar {
+		position: fixed;
+		top: 2vh;
+		left: 63vw;
+		height: 3.5em;
+		width: 3.5em;
+		background-color: #000;
+		transform: rotate(-5deg);
+		cursor: pointer;
+		padding: .5em .75em;
+
+		#chevron-left {
+			color: white;
+			font-size: 2.4rem;
+		}
+	}
+}
+
+#page-overlay {
+	position: fixed;
+	right: -120vw;
+	top: 0;
+	height: 100vh;
+	width: 100vw;
+	background-color: $brand-color-dark;
+	opacity: 0.2;
+	z-index: 49;
+	transition: all.5s linear;
+
+	&.cover {
+		opacity: .75;
+		right: 0;
+	}
+}
+
+.columns {
+	margin-left: 0;	
+}
+
+
+//media queries
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+	#services-list {
+		ul {
+			.service-item {
+				padding: .25em .25em .25em .75em;
+
+				&:hover {
+					font-size: 1rem !important;
+				}
+			}
+			.service-selected {
+				font-size: 1rem !important;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#service-description-area .service-description {
+		height: 80%;
+	}
+	#mobile-service-list {
+		margin-top: -2em;
+		margin-bottom: 2em; 
+	}
+	.buttons {
+		flex-direction: column;
+
+		.button {
+			width: 200px;
+		}
+	}
+	#homepage-slogan {
+		height: 90vh;
+		max-height: 90vh;
+		padding-top: 2em;
+
+		p, h1 {
+			width: 90%;
+			text-align: left;
+			padding-left: 16px;
+		}
+
+		h1 {
+			line-height: .8;
+		}
+	}
+	#mobile-no-padding {
+		padding: 0;
+	}
+	.column {
+		height: 100vh;
+	}
+	#services-sidebar {
+		left: -120vw;
+		width: 95vw;
+		transform: rotate(0deg);
+
+		#services-sidebar-body, #close-sidebar {
+			transform: rotate(0deg);
+		}
+
+		#close-sidebar {
+			left: 88vw;
+			height: 2.5em;
+			width: 2.5em;
+			top: 6vh;
+
+			#chevron-left {
+				font-size: 1.2rem;
+			}
+		}
+	}
+
+	.yellow-section::before {
+		width: 100%;
+	}
+
+	#service-description-area .service-description h2 {
+		line-height: 1;
+	}
+	#service-description-area #service-background {
+		font-size: 5rem;
+		transform: rotate(90deg);
+		width: 100vh;
+		top: 3em;
+		left: -0.95em;
 	}
 }
