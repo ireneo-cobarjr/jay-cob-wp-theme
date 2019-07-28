@@ -34,13 +34,13 @@
 					<div id="service-overlay"></div>
 					<div class="is-hidden-tablet" id="mobile-service-list">
 						<div class="select is-primary">
-						  <select class="has-background-dark has-text-light">
-							<option class="service-selected service-name" data-svc="website">WordPress Website</option>
-							<option class="service-item service-name" data-svc="theme">Custom WordPress Theme</option>
-							<option class="service-item service-name" data-svc="wix">Wix to WordPress</option>
-							<option class="service-item service-name" data-svc="mockup">Mock-up to HTML</option>
-							<option class="service-item service-name" data-svc="basic">Basic Website</option>
-							<option class="service-item service-name" data-svc="others">Others</option>
+						  <select class="has-background-dark has-text-light" id="services-mobile">
+							<option data-svc="website">WordPress Website</option>
+							<option data-svc="theme">Custom WordPress Theme</option>
+							<option data-svc="wix">Wix to WordPress</option>
+							<option data-svc="mockup">Mock-up to HTML</option>
+							<option data-svc="basic">Basic Website</option>
+							<option data-svc="others">Others</option>
 						  </select>
 						</div>
 					</div>

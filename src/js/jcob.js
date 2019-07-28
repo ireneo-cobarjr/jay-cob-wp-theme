@@ -44,6 +44,7 @@ var svcOut = new Scene(
 //////////////////////////////////
 //////////////////////////////////
 
+//service animation on desktop
 var svcTitle = document.getElementById('service-title')
 var svcDesc  = document.getElementById('service-description')
 var svcBackg = document.getElementById('service-background')
@@ -68,6 +69,22 @@ Array.prototype.forEach.call(services, service => {
 
 	})
 })
+
+//service animation on mobile
+
+document.addEventListener('input', function (ev) {
+
+	// Only run on our select menu
+	if (ev.target.id !== 'services-mobile') return
+
+	var svcItems = Services[(ev.target.options[event.target.selectedIndex]).getAttribute('data-svc')]
+		setTimeout( () => {
+			svcTitle.innerHTML = svcItems.title
+			svcBackg.innerHTML = svcItems.breakdown
+			svcDesc.innerHTML  = svcItems.desc
+		}, 405)
+		svcOut.playCSS()
+}, false);
 
 //////////////////////////////////
 ///// sidebar ////////////////////
