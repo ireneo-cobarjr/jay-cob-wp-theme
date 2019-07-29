@@ -9,3 +9,4 @@
  */
 
 require get_template_directory() . '/inc/load-assets.php';
+require get_template_directory() . '/inc/ajax-xhr.php';

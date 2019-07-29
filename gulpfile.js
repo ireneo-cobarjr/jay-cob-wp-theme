@@ -22,14 +22,15 @@ const sass      = 'src/sass/jcob.scss',
 	  cssDest   = 'assets/css/',
 	  jsFile    = 'src/js/jcob.js',
 	  jsVars    = 'vars.js',
-	  jsSrc     = 'src/js/'
+	  jsSrc     = 'src/js/',
+	  jssXHR    = 'sXHR.js',
 	  jsOut     = 'jcob.min.js', 
 	  jsDest    = 'assets/js/',
 	  jumpJS 	= 'node_modules/jump.js/dist/jump.js',
 	  sceneJS 	= 'node_modules/scenejs/dist/scene.js',
 	  watchCss  = 'src/sass/*.scss',
 	  watchJs   = 'src/js/*.js',
-	  watchPhp  = '**/**/**/*.php'
+	  watchPhp  = '**/**/**/*.php',
 	  localsite = 'http://jay.test';
 
 //build files
@@ -74,6 +75,7 @@ let JS_ORDER = [
 	sceneJS,
 	jumpJS,
 	jsDest + jsVars,
+	jsDest + jssXHR,
 	jsDest + 'jcob.js'
 ]; 
 ///////////////////////////////////////////////////////////////////////////
@@ -106,6 +108,13 @@ function buildJS() {
 			.pipe(dest(jsDest));
 }
 
+function buildsXHRJS() {
+	return src(jsSrc + jssXHR)
+			.pipe(lineEnding())
+			.pipe(babel({ presets: ['@babel/env'] }))
+			.pipe(dest(jsDest));
+}
+
 function buildVarsJS() {
 	return src(jsSrc + jsVars)
 			.pipe(lineEnding())
@@ -122,6 +131,9 @@ function concatJS() {
 
 function removeJsResidue() {
 	return del([jsDest + 'jcob.js']);
+}
+function removeJssxhrResidue() {
+	return del([jsDest + jssXHR]);
 }
 function removeJsvarsResidue() {
 	return del([jsDest + jsVars]);
@@ -176,7 +188,7 @@ function watchFiles() {
 	//watch for scss file changes
 	watch(watchCss, buildCSS);
 	//watch for js file changes
-	watch(watchJs, series(cleanJS, buildVarsJS, buildJS, concatJS, removeJsvarsResidue, removeJsResidue));
+	watch(watchJs, series(cleanJS, buildVarsJS, buildsXHRJS, buildJS, concatJS, removeJssxhrResidue, removeJsvarsResidue, removeJsResidue));
 	//reload browser once changes are made
 	watch([
 		cssDest + cssOut,
@@ -193,7 +205,7 @@ exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
 exports.cleanJS      = cleanJS;
 
-var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildVarsJS, buildJS, buildCSS]), concatJS, removeJsResidue ,watchFiles);
+var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildsXHRJS ,buildVarsJS, buildJS, buildCSS]), concatJS, removeJsvarsResidue, removeJssxhrResidue,removeJsResidue ,watchFiles);
 var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
 task('build', buildFiles);

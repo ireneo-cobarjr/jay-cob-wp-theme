@@ -209,7 +209,7 @@ body {
 	width: 65vw;
 	background-color: white;
 	transform: rotate(5deg);
-	transition: all .5s ease-in;
+	transition: all .5s linear;
 	z-index: 50;
 
 	&.show-sidebar {
@@ -238,6 +238,11 @@ body {
 			font-size: 2.4rem;
 		}
 	}
+
+	#client-detail {
+		resize: none;
+		height: 200px;
+	}
 }
 
 #page-overlay {
@@ -259,6 +264,15 @@ body {
 
 .columns {
 	margin-left: 0;	
+}
+
+#name-error, #name-status, #mail-error, #mail-status, #budget-status, #budget-error, #detail-error {
+	opacity: 0;
+	transition: all 0.25 linear;
+}
+
+#client-budget-area {
+	width: 150px;
 }
 
 
