@@ -7,7 +7,7 @@
 		console.log(p);
 		var hr = new XMLHttpRequest();
 		hr.open("POST", l, true);
-		hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
 		hr.onreadystatechange=function() {
     		if (this.readyState == 4 && this.status == 200) {
       			var resp = this.responseText;

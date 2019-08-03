@@ -1,0 +1,19 @@
+#mail-status {
+	width: 250px;
+	display: inline-block;
+}
+#smtp-status {
+	margin-right: 20px;
+}
+label[for^="mail_smtp_encryption"] {
+	margin-right: 25px;
+
+}
+#mail-port {
+	width: 75px;
+}
+
+.jcWP-admin-note {
+	width: 300px;
+	color: gray;
+}

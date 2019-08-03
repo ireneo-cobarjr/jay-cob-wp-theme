@@ -1,15 +1,15 @@
 <div id="services-sidebar">
-	<div id="close-sidebar">
-		<span>
-			<i class="fas fa-chevron-left" id="chevron-left"></i>
+	<div id="close-sidebar" class="has-background-yellow">
+		<span class="icon">
+			<i class="fas fa-chevron-left"></i>
 		</span>
 	</div>
 	<div id="services-sidebar-body">
-		<h1 id="sidebar-title">test</h1>
+		<h3 id="sidebar-title"></h3>
 		<form action="#" method="post" id="client-service-form" name="clientForm" data-url="<?php echo admin_url('admin-ajax.php'); ?>">
 		<!-- name field -->
 			<div class="field">
-				<label class="label">Name</label>
+				<label class="label">Name <span class="has-text-grey-light">(Only Letters A-Z)</span></label>
 				<div class="control has-icons-left has-icons-right">
 					<input class="input" type="text" placeholder="Your Name" id="client-name" name="Name">
 					<span class="icon is-small is-left">

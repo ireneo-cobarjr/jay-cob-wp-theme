@@ -28,6 +28,7 @@ const sass      = 'src/sass/jcob.scss',
 	  jsDest    = 'assets/js/',
 	  jumpJS 	= 'node_modules/jump.js/dist/jump.js',
 	  sceneJS 	= 'node_modules/scenejs/dist/scene.js',
+	  cookie    = 'node_modules/js-cookie/src/js.cookie.js',
 	  watchCss  = 'src/sass/*.scss',
 	  watchJs   = 'src/js/*.js',
 	  watchPhp  = '**/**/**/*.php',
@@ -36,21 +37,32 @@ const sass      = 'src/sass/jcob.scss',
 //build files
 const build = {
 	css: {
-			files: [
-				'assets/css/jcob.min.css',			],
+			files: ['assets/css/jcob.min.css',],
 			dest: 'dist/jay-cob-wp-theme/assets/css/'
 		},
 	js: {
-			files: [
-				'assets/js/jcob.min.js'
-			],
+			files: ['assets/js/jcob.min.js'],
 			dest: 'dist/jay-cob-wp-theme/assets/js/'
 		},
 	inc: {
-			files: [
-				'inc/*'
-			],
+			files: ['inc/*'	],
 			dest: 'dist/jay-cob-wp-theme/inc/'
+		},
+	admin: {
+			files: ['inc/admin/*'],
+			dest: 'dist/jay-cob-wp-theme/inc/admin/'
+		},
+	templates: {
+			files: ['inc/admin/templates/*'],
+			dest: 'dist/jay-cob-wp-theme/inc/admin/templates/'
+		},
+	adminJS: {
+			files: ['inc/admin/js/*'],
+			dest: 'dist/jay-cob-wp-theme/inc/admin/js/'
+		},
+	adminCSS: {
+			files: ['inc/admin/css/*'],
+			dest: 'dist/jay-cob-wp-theme/inc/admin/css/'
 		},
 	parts: {
 			files: [
@@ -72,6 +84,7 @@ const build = {
 
 //Order by which JS files will be concatenated.
 let JS_ORDER = [
+	cookie,
 	sceneJS,
 	jumpJS,
 	jsDest + jsVars,
@@ -157,6 +170,22 @@ function copyIncFiles() {
 	return src(build.inc.files)
 			.pipe(dest(build.inc.dest));
 }
+function copyAdminFiles() {
+	return src(build.admin.files)
+			.pipe(dest(build.admin.dest));
+}
+function copyTmpFiles() {
+	return src(build.templates.files)
+			.pipe(dest(build.templates.dest));
+}
+function copyAdmJSFiles() {
+	return src(build.adminJS.files)
+			.pipe(dest(build.adminJS.dest));
+}
+function copyAdmCSSFiles() {
+	return src(build.adminCSS.files)
+			.pipe(dest(build.adminCSS.dest));
+}
 function copyPartsFiles() {
 	return src(build.parts.files)
 			.pipe(dest(build.parts.dest));
@@ -206,7 +235,7 @@ exports.buildJS      = buildJS;
 exports.cleanJS      = cleanJS;
 
 var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildsXHRJS ,buildVarsJS, buildJS, buildCSS]), concatJS, removeJsvarsResidue, removeJssxhrResidue,removeJsResidue ,watchFiles);
-var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
+var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyAdminFiles, copyTmpFiles, copyAdmJSFiles, copyAdmCSSFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
 task('build', buildFiles);
 ///////////////////////////////////////////////////////////////////////////

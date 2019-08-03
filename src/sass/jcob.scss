@@ -4,6 +4,7 @@
 //Colors
 $purple: #FF0082;
 $cyan: #00BCD4;
+$yellow: #FFDA13;
 $brand-color-primary: $cyan;
 $brand-color-secondary: $purple;
 $brand-color-dark: #263238;
@@ -16,6 +17,12 @@ $success: $purple;
 
 $brand-header-font: 'Jaldi', sans-serif;
 $brand-all-font: 'Montserrat', sans-serif;
+
+$link : $dark;
+$link-visited : $dark;
+$link-hover : $dark;
+$link-focus : $dark;
+$link-active : $dark;
 
 //column
 $column-gap: 1.75em;
@@ -40,6 +47,9 @@ $radius-large: none;
 .jcWP-100vh {
 	height: 100vh;
 }
+.jcWP-50vh {
+	height: 60vh;
+}
 .jcWP-100vw {
 	width: 100vw;	
 }
@@ -48,6 +58,9 @@ $radius-large: none;
 	flex-direction: column;
 	max-height: 300px;
 	height: 35vh;
+}
+.has-background-yellow {
+	background-color: $yellow !important;
 }
 
 // fonts
@@ -82,6 +95,9 @@ h4 {
 .has-background-transparent {
 	background-color: transparent !important;
 }
+.has-background-success-gradient {
+	background-image: linear-gradient(to right bottom, #ff0082, #c70168, #92014e, #600133, #33001a);	
+}
 .yellow-section {
 	position: relative;
 	overflow: none;
@@ -91,8 +107,8 @@ h4 {
 		top: -8.1%;
 		left: 0;
 		width: 50%;
-		height: 105%;
-		background-color: #FFDA13;
+		height: 104.9%;
+		background-color: $yellow;
 	}
 }
 
@@ -100,14 +116,13 @@ h4 {
 body {
 	background-color: $primary;
 }
-.no-overflow {
-	// overflow: hidden;
-}
 .service-cards {
 	height: 30%;
 	width: 100%;
 	margin: .5em 0;
 }
+
+$card-shadow: none;
 
 
 
@@ -224,18 +239,14 @@ body {
 
 	#close-sidebar {
 		position: fixed;
-		top: 2vh;
+		top: 4vh;
 		left: 63vw;
-		height: 3.5em;
-		width: 3.5em;
-		background-color: #000;
 		transform: rotate(-5deg);
 		cursor: pointer;
 		padding: .5em .75em;
 
 		#chevron-left {
 			color: white;
-			font-size: 2.4rem;
 		}
 	}
 
@@ -275,94 +286,46 @@ body {
 	width: 150px;
 }
 
+#socials-navbar {
+	width: 120px;
+	margin-left: 2em;
+	margin-top: 1.25em;
+	display: inline-block;	
+}
 
-//media queries
-@media only screen and (min-width: 769px) and (max-width: 1023px) {
-	#services-list {
-		ul {
-			.service-item {
-				padding: .25em .25em .25em .75em;
+#services-adjust-height {
+	margin-bottom: 28px;
+}
 
-				&:hover {
-					font-size: 1rem !important;
-				}
-			}
-			.service-selected {
-				font-size: 1rem !important;
-			}
-		}
+#about-brand {
+	display: flex;
+	padding: 0.5em;
+	height: 5em;
+
+	h3 {
+		display: inline-block;
+	}
+}
+.social-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	align-content: space-between;
+
+	#fb {
+		margin-top: -12px;
+	    margin-right: 5px;
 	}
 }
 
-@media only screen and (max-width: 768px) {
-	#service-description-area .service-description {
-		height: 80%;
-	}
-	#mobile-service-list {
-		margin-top: -2em;
-		margin-bottom: 2em; 
-	}
-	.buttons {
-		flex-direction: column;
+#skill-stack {
+	margin-top: 1em;
+	padding: 1em 1.2em;
 
-		.button {
-			width: 200px;
-		}
-	}
-	#homepage-slogan {
-		height: 90vh;
-		max-height: 90vh;
-		padding-top: 2em;
-
-		p, h1 {
-			width: 90%;
-			text-align: left;
-			padding-left: 16px;
-		}
-
-		h1 {
-			line-height: .8;
-		}
-	}
-	#mobile-no-padding {
-		padding: 0;
-	}
-	.column {
-		height: 100vh;
-	}
-	#services-sidebar {
-		left: -120vw;
-		width: 95vw;
-		transform: rotate(0deg);
-
-		#services-sidebar-body, #close-sidebar {
-			transform: rotate(0deg);
-		}
-
-		#close-sidebar {
-			left: 88vw;
-			height: 2.5em;
-			width: 2.5em;
-			top: 6vh;
-
-			#chevron-left {
-				font-size: 1.2rem;
-			}
-		}
-	}
-
-	.yellow-section::before {
-		width: 100%;
-	}
-
-	#service-description-area .service-description h2 {
-		line-height: 1;
-	}
-	#service-description-area #service-background {
-		font-size: 5rem;
-		transform: rotate(90deg);
-		width: 100vh;
-		top: 3em;
-		left: -0.95em;
+	ul {
+		list-style-type: none;
 	}
 }
+
+@import "media.scss";

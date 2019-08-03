@@ -1,9 +1,15 @@
 
 var jumpToServices = document.getElementById('go-to-services-section')
+var jumpToAbout    = document.getElementById('go-to-about-section')
 
 jumpToServices.addEventListener('click', () => {
 	Jump('#services-section')
 })
+
+jumpToAbout.addEventListener('click', () => {
+	Jump('#about-section')
+})
+
 
 
 //////////////////////////////////
@@ -100,12 +106,16 @@ document.addEventListener('input', function (ev) {
 		svcOut.playCSS()
 	} else if (ev.target.id == 'client-name') {
 		var s = ev.target.value
+		var x = s.replace(/[^a-z\s]/i,'')
+		ev.target.value = x
+
 		if (s.length < 3) {
 			nameStatus.style.opacity = 1
 			nameStatus.classList.add('fa-exclamation-triangle')
 			nameStatus.classList.remove('fa-check')
 			nameError.innerHTML = 'Should be atleast 3 letters.'
 			nameError.style.opacity = 1
+			ev.target.classList.add('is-danger')
 			svcForm.name = 0
 			if (svcForm.status() == 5) {
 				clientSubmit.disabled = false
@@ -113,29 +123,15 @@ document.addEventListener('input', function (ev) {
 				clientSubmit.disabled = true
 			}
 		} else {
-			if (/[^a-z\s]/i.test(s)) {
-				nameStatus.style.opacity = 1
-				nameStatus.classList.add('fa-exclamation-triangle')
-				nameStatus.classList.remove('fa-check')
-				nameError.innerHTML = 'Name should only be letters.'
-				nameError.style.opacity = 1
-				svcForm.name = 0
-				if (svcForm.status() == 5) {
-					clientSubmit.disabled = false
-				} else {
-					clientSubmit.disabled = true
-				}
+			ev.target.classList.remove('is-danger')
+			nameStatus.classList.remove('fa-exclamation-triangle')
+			nameStatus.classList.add('fa-check')
+			nameError.style.opacity = 0
+			svcForm.name = 1
+			if (svcForm.status() == 5) {
+				clientSubmit.disabled = false
 			} else {
-				nameStatus.style.opacity = 1
-				nameStatus.classList.remove('fa-exclamation-triangle')
-				nameStatus.classList.add('fa-check')
-				nameError.style.opacity = 0
-				svcForm.name = 1
-				if (svcForm.status() == 5) {
-					clientSubmit.disabled = false
-				} else {
-					clientSubmit.disabled = true
-				}
+				clientSubmit.disabled = true
 			}
 		}
 	} else if (ev.target.id == 'client-mail') {
@@ -145,6 +141,7 @@ document.addEventListener('input', function (ev) {
 			mailStatus.classList.add('fa-check')
 			mailStatus.classList.remove('fa-exclamation-triangle')
 			mailError.style.opacity = 0
+			ev.target.classList.remove('is-danger')
 			svcForm.mail = 1
 			if (svcForm.status() == 5) {
 				clientSubmit.disabled = false
@@ -153,6 +150,7 @@ document.addEventListener('input', function (ev) {
 			}
 		} else {
 			mailStatus.style.opacity = 1
+			ev.target.classList.add('is-danger')
 			mailStatus.classList.remove('fa-check')
 			mailStatus.classList.add('fa-exclamation-triangle')
 			mailError.style.opacity = 1
@@ -166,6 +164,7 @@ document.addEventListener('input', function (ev) {
 	} else if (ev.target.id == 'client-detail') {
 		var s = ev.target.value
 		if (s.length < 12) {
+			ev.target.classList.add('is-danger')
 			detailError.style.opacity = 1
 			svcForm.detail = 0
 			if (svcForm.status() == 5) {
@@ -174,6 +173,7 @@ document.addEventListener('input', function (ev) {
 				clientSubmit.disabled = true
 			}
 		} else {
+			ev.target.classList.remove('is-danger')
 			detailError.style.opacity = 0
 			svcForm.detail = 1
 			if (svcForm.status() == 5) {
@@ -187,6 +187,7 @@ document.addEventListener('input', function (ev) {
 		var x = s.replace(/[^0-9]/g, '')
 		ev.target.value = x
 		if (x.length < 2) {
+			ev.target.classList.add('is-danger')
 			budgetError.style.opacity = 1
 			budgetStatus.style.opacity = 1
 			budgetStatus.classList.add('fa-exclamation-triangle')
@@ -198,6 +199,7 @@ document.addEventListener('input', function (ev) {
 				clientSubmit.disabled = true
 			}
 		} else {
+			ev.target.classList.remove('is-danger')
 			budgetError.style.opacity = 0
 			budgetStatus.style.opacity = 1
 			budgetStatus.classList.add('fa-check')
@@ -238,24 +240,60 @@ clientAgree.addEventListener('change', ev => {
 
 const svcClientForm = document.getElementById('client-service-form')
 svcClientForm.addEventListener('submit', ev => {
+	clientSubmit.classList.add('is-loading')
+	clientSubmit.disabled = true
 	ev.preventDefault()
 	var data = {
 		action: 'get_client_service_request',
+		srvc: svcTitle.innerHTML,
 		name: document.clientForm.Name.value,
 		mail: document.clientForm.Mail.value,
 		budg: document.clientForm.Budg.value,
 		desc: document.clientForm.Desc.value,
 	}
 
-	var req = new sXHR(svcClientForm.getAttribute('data-url'))
-	req.send(data).response()
+		document.clientForm.Name.disabled = true
+		document.clientForm.Mail.disabled = true
+		document.clientForm.Budg.disabled = true
+		document.clientForm.Desc.disabled = true
 
+	var req = new sXHR(svcClientForm.getAttribute('data-url'))
+	req.send(data).response(r => {
+		var resp = JSON.parse(r)
+		if (resp.status.error == 0) {
+			resetSidebar()
+			notify.success().msg("Thank You! We will e-mail you back within 24 hours to confirm your order.")
+			notify.show()
+
+			// set cookies here
+			var cookieName = svcBackg.innerHTML
+			var x = Cookies.get(cookieName)
+			if (x == undefined) {
+				Cookies.set(cookieName, 1, {expires: 1})
+			} else {
+				Cookies.set(cookieName, Number(x) + 1, {expires: 1})
+			}
+		} else {
+			resetSidebar()
+			notify.warning().msg("Something went wrong! We are sorry for this. You may try again later or you may send us an e-mail for your concerns at admin@jay-cob.com")
+			notify.show()
+		}
+	})
+
+	function resetSidebar() {
 		document.clientForm.Name.value = ''
 		document.clientForm.Mail.value = ''
 		document.clientForm.Budg.value = ''
 		document.clientForm.Desc.value = ''
-
-
+		document.clientForm.Name.disabled = false
+		document.clientForm.Mail.disabled = false
+		document.clientForm.Budg.disabled = false
+		document.clientForm.Desc.disabled = false
+		svcSidebar.classList.remove('show-sidebar')
+		pageOverlay.classList.remove('cover')
+		clientSubmit.classList.remove('is-loading')
+		svcForm.reset()			
+	}
 })
 
 //////////////////////////////////
@@ -267,8 +305,18 @@ const closeSidebar = document.getElementById('close-sidebar')
 const pageOverlay  = document.getElementById('page-overlay')
 
 availBtn.addEventListener('click', () => {
-	svcSidebar.classList.add('show-sidebar')
-	pageOverlay.classList.add('cover')				
+	document.getElementById('sidebar-title').innerHTML = svcTitle.innerHTML
+
+	//check cookies first
+	var cookieName = svcBackg.innerHTML
+	var x = Cookies.get(cookieName)
+	if (Number(x) < 3 || x == undefined) {
+		svcSidebar.classList.add('show-sidebar')
+		pageOverlay.classList.add('cover')				
+	} else {
+		notify.warning().msg("It seems you already had requested for this same service 3 times. To avoid spamming, you may go back and request for this same service after 24 hrs.")
+		notify.show()
+	}
 })
 
 closeSidebar.addEventListener('click', () => {
@@ -277,9 +325,9 @@ closeSidebar.addEventListener('click', () => {
 })
 
 
-
-console.log(document.cookie)
-
+//////////////////////////////////
+///// Notification ///////////////
+//////////////////////////////////
 
 window.onload = () => {
 	clientName.value   = ''
