@@ -35,6 +35,9 @@
 //////// /up to 768px /////////
 ///////////////////////////////
 @media only screen and (max-width: 768px) {
+	#jcWP-brand-cube {
+		top: 0;
+	}
 	.is-one-third-desktop, .adjust-from-tab-size {
 		padding-left: 0;
 		padding-top: 0;

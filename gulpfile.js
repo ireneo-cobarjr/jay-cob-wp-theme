@@ -217,7 +217,7 @@ function watchFiles() {
 	//watch for scss file changes
 	watch(watchCss, buildCSS);
 	//watch for js file changes
-	watch(watchJs, series(cleanJS, buildVarsJS, buildsXHRJS, buildJS, concatJS, removeJssxhrResidue, removeJsvarsResidue, removeJsResidue));
+	watch(watchJs, series(cleanJS, parallel(buildVarsJS, buildsXHRJS, buildJS), concatJS, parallel(removeJssxhrResidue, removeJsvarsResidue, removeJsResidue)));
 	//reload browser once changes are made
 	watch([
 		cssDest + cssOut,
@@ -234,7 +234,7 @@ exports.concatJS     = concatJS;
 exports.buildJS      = buildJS;
 exports.cleanJS      = cleanJS;
 
-var dev = series( parallel([cleanJS, cleanCssOut]), parallel([buildsXHRJS ,buildVarsJS, buildJS, buildCSS]), concatJS, removeJsvarsResidue, removeJssxhrResidue,removeJsResidue ,watchFiles);
+var dev = series( parallel(cleanJS, cleanCssOut), parallel(buildsXHRJS ,buildVarsJS , buildJS, buildCSS), concatJS, removeJsvarsResidue, removeJssxhrResidue,removeJsResidue,watchFiles);
 var buildFiles = series(initialClean ,parallel([copyBaseFiles, copyPartsFiles, copyIncFiles, copyAdminFiles, copyTmpFiles, copyAdmJSFiles, copyAdmCSSFiles, copyCSSFiles, copyJSFiles]), zipBuild, finalClean);
 task('default', dev);
 task('build', buildFiles);

@@ -328,7 +328,6 @@ closeSidebar.addEventListener('click', () => {
 //////////////////////////////////
 ///// Notification ///////////////
 //////////////////////////////////
-
 window.onload = () => {
 	clientName.value   = ''
 	clientMail.value   = ''

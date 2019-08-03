@@ -20,7 +20,6 @@
 
 	  gtag('config', 'UA-144736956-1');
 	</script>
-
 </head>
 <body <?php body_class();?> >
 	<?php get_template_part('/template-parts/components/fb-cfg'); ?>
